@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Beethozart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="song_cover_description">Song cover</string>
+    <string name="default_song_title">Song title</string>
+    <string name="default_song_artist">Unknown artist</string>
+
+    <string name="favorite">Favorite</string>
+    <string name="search">Search</string>
+    <string name="more">More</string>
+
+    <string name="song_list_item_text">Song list</string>
+    <string name="playlist_item_text">Playlist</string>
+    <string name="artist_item_text">Artist</string>
+    <string name="album_item_text">Album</string>
+
+    <string name="playlist_cover_desc">Playlist cover</string>
+    <string name="num_tracks_format">%1$d tracks</string>
+    <string name="default_playlist_name">Unknown</string>
+    <string name="default_playlist_num_tracks">Unknown</string>
+
+    <string name="channel_name">Beethozart</string>
+    <string name="channel_description">Beethozart channel</string>
+
+    <string name="notification_title">test title</string>
+    <string name="notification_message">test message</string>
+
+</resources>
