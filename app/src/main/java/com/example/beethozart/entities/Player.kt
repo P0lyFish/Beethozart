@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.beethozart.notification.MusicPlayerNotificationBuilder
 import com.example.beethozart.services.MusicPlayerService
-import timber.log.Timber
 import kotlin.math.min
 
 class Player(
@@ -70,7 +69,7 @@ class Player(
         mediaPlayer.setOnPreparedListener {
             it.start()
             service.startForeground(
-                    MusicPlayerService.ONGOING_NOTIFICATION_ID,
+                    MusicPlayerNotificationBuilder.ONGOING_NOTIFICATION_ID,
                     service.musicPlayerNotificationBuilder.build(currentSong)
             )
             _isPlaying.value = true
