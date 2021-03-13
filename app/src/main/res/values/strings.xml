@@ -26,4 +26,9 @@
     <string name="notification_title">test title</string>
     <string name="notification_message">test message</string>
 
+    <string name="user_name_hint">User name</string>
+    <string name="password_hint">Password</string>
+    <string name="password_confirm_hint">Confirm password</string>
+    <string name="login_button_text">Login</string>
+    <string name="create_account_button_text">Create</string>
 </resources>
