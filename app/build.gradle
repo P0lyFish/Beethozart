@@ -95,4 +95,12 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    // ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.13.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.2'
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.13.2'
+
+    // Ted permission
+    implementation 'gun0912.ted:tedpermission:2.2.3'
+
 }
