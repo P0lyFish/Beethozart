@@ -2,12 +2,15 @@ package com.example.beethozart.notification
 
 import android.app.Notification
 import android.app.Notification.EXTRA_NOTIFICATION_ID
+import android.app.Notification.VISIBILITY_PUBLIC
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.beethozart.MainActivity
@@ -20,6 +23,7 @@ import timber.log.Timber
 
 class MusicPlayerNotificationBuilder(
         private val service: MusicPlayerService,
+        private val sessionToken: MediaSessionCompat.Token
 ) {
     private var pendingIntent: PendingIntent = Intent(service, MainActivity::class.java)
             .let { notificationIntent ->
@@ -64,9 +68,13 @@ class MusicPlayerNotificationBuilder(
 
         return NotificationCompat.Builder(service, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_audiotrack_24px)
+                .setLargeIcon(BitmapFactory.decodeResource(service.resources, R.drawable.note))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(song.title)
                 .setContentText(song.album)
                 .setContentIntent(pendingIntent)
+                .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
+                    .setMediaSession(sessionToken))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .addAction(R.drawable.ic_skip_previous_24dp, "skip_prev", prevPendingIntent)
                 .addAction(R.drawable.ic_pause_24dp, "pause", pausePendingIntent)
@@ -85,7 +93,9 @@ class MusicPlayerNotificationBuilder(
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
+                lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
             }
+
             // Register the channel with the system
             val notificationManager: NotificationManager =
                     service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

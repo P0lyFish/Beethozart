@@ -27,7 +27,7 @@ class SongDatabaseBuilder(private val context: Context) {
             val uriExternal = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             val sortOrder = MediaStore.Audio.Media.DATE_ADDED + " DESC"
             val audioCursor = context.contentResolver.query(
-                    uriExternal, projection, null, null, sortOrder
+                    uriExternal, projection, selection, null, sortOrder
             )
             Timber.i(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString())
             if (audioCursor != null && audioCursor.moveToFirst()) {
