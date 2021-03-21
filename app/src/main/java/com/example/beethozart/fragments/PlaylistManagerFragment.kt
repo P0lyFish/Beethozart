@@ -11,6 +11,7 @@ import com.example.beethozart.R
 import com.example.beethozart.databinding.FragmentPlaylistManagerBinding
 import com.example.beethozart.fragments.adapters.PlaylistAdapter
 import com.example.beethozart.viewmodels.PlaylistViewModel
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.

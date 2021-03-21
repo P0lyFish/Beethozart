@@ -31,4 +31,8 @@ data class SongList(
     operator fun get(id: Int): Song {
         return songList[id]
     }
+
+    fun toList(): List<Song> {
+        return songList
+    }
 }

@@ -20,10 +20,29 @@ class PlayerViewModel(application: Application): AndroidViewModel(application) {
     val currentPosition: LiveData<Float>
       get() = _currentPosition
 
+    private val _isAttachedToPlayerFragment = MutableLiveData<Boolean>()
+    val isAttachedToPlayerFragment: LiveData<Boolean>
+      get() = _isAttachedToPlayerFragment
+
+    var isPlaying = false
+
     var player : SimpleExoPlayer? = null
 
+    fun attachToPlayerFragment() {
+        _isAttachedToPlayerFragment.value = true
+    }
+
+    fun detachToPlayerFragment() {
+        _isAttachedToPlayerFragment.value = false
+    }
+
+    var songList: SongList? = null
+
     fun playSongList(songList: SongList) {
+        this.songList = songList
+
         player = musicPlayerServiceBinder.playSongList(songList)
+        isPlaying = true
         runnable = Runnable {
             _currentPosition.value = player!!.currentPosition.toFloat() / player!!.duration
             handler.postDelayed(runnable, 100)

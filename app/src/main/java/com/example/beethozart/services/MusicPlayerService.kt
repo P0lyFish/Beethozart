@@ -35,7 +35,10 @@ class MusicPlayerService: Service() {
     inner class MusicPlayerServiceBinder : Binder() {
         fun playSongList(songList: SongList): SimpleExoPlayer {
             player?.release()
-            player = SimpleExoPlayer.Builder(this@MusicPlayerService).build()
+
+            val context = this@MusicPlayerService
+
+            player = SimpleExoPlayer.Builder(context).build()
 
             for (x in 0 until songList.size) {
                 player!!.addMediaItem(MediaItem.fromUri(songList[x].uri))

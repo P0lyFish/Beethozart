@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beethozart.R
 import com.example.beethozart.databinding.ListItemArtistBinding
 import com.example.beethozart.entities.Artist
+import timber.log.Timber
 
-class ArtistAdapter: ListAdapter<Artist, ArtistAdapter.ViewModel>(ArtistDiffCallback()) {
+class ArtistAdapter(private val clickListener: ArtistListener): ListAdapter<Artist,
+        ArtistAdapter.ViewModel>(ArtistDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewModel, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(clickListener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewModel {
@@ -22,8 +24,9 @@ class ArtistAdapter: ListAdapter<Artist, ArtistAdapter.ViewModel>(ArtistDiffCall
     }
 
     class ViewModel private constructor(val binding: ListItemArtistBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Artist) {
+        fun bind(clickListener: ArtistListener, item: Artist) {
             binding.artist = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -48,5 +51,12 @@ class ArtistDiffCallback: DiffUtil.ItemCallback<Artist>() {
 
     override fun areItemsTheSame(oldItem: Artist, newItem: Artist): Boolean {
         return oldItem.artistName == newItem.artistName
+    }
+}
+
+
+class ArtistListener(val artistListener: (artist: Artist) -> Unit) {
+    fun onClick(artist: Artist) {
+        artistListener(artist)
     }
 }

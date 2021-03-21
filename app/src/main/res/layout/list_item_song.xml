@@ -47,10 +47,11 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
                     android:contentDescription="@string/song_cover_description"
+                    android:src="@drawable/note"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/note" />
+                    app:albumCover="@{song}" />
 
                 <TextView
                     android:id="@+id/songArtist"

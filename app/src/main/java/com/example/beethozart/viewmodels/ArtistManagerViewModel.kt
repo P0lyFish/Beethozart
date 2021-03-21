@@ -4,25 +4,49 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.beethozart.databases.SongDatabase
 import com.example.beethozart.entities.Artist
 import com.example.beethozart.entities.Song
+import timber.log.Timber
 
-class ArtistViewModel(application: Application): AndroidViewModel(application) {
-    private val _artistList = MutableLiveData<MutableList<Artist>>()
-    val artistList: LiveData<MutableList<Artist>>
+class ArtistManagerViewModel(application: Application): AndroidViewModel(application) {
+    private var songDatabase = SongDatabase.getInstance(application).songDatabaseDao
+
+    var songList: LiveData<List<Song>> = songDatabase.getAllSongs()
+
+    private val _artistList = MutableLiveData<List<Artist>>()
+
+    private val _clickedArtist = MutableLiveData<Artist>()
+    val clickedArtist: LiveData<Artist>
+      get() = _clickedArtist
+
+    val artistList: LiveData<List<Artist>>
         get() = _artistList
 
+    fun createArtistList(songList: List<Song>) {
+        _artistList.value = listOf()
+        Timber.i("Number of songs: ${songList.size}")
+        val artistMap = HashMap<String, Artist>()
 
-    init {
-        val song = Song(1L, "Seebiggirl", "Phong")
-        val artist = Artist("Solo")
-        artist.addSong(song)
+        for (song in songList) {
+            if (artistMap.containsKey(song.artist)) {
+                artistMap[song.artist]!!.addSong(song)
+            }
+            else {
+                artistMap[song.artist] = Artist(song.artist, mutableListOf(song))
+            }
+        }
+        Timber.i("Number of artists: ${artistMap.size}")
 
-        _artistList.value = mutableListOf(artist)
+        _artistList.value = artistMap.values.toList()
+    }
 
-        val artist2 = Artist("Team")
-        artist2.addSong(song)
-        artist2.addSong(Song(2L, "Sky", "Phong"))
-        _artistList.value?.add(artist)
+    fun onArtistClicked(artist: Artist) {
+        Timber.i("clicked artist: ${artist.artistName}")
+        _clickedArtist.value = artist
+    }
+
+    fun onArtistSongListNavigated() {
+        _clickedArtist.value = null
     }
 }

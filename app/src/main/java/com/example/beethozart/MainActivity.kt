@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.beethozart.databinding.ActivityMainBinding
+import com.example.beethozart.fragments.SongManagerFragmentDirections
 import com.example.beethozart.services.MusicPlayerService
+import com.example.beethozart.utils.SongDatabaseBuilder
 import com.example.beethozart.viewmodels.PlayerViewModel
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -72,10 +75,12 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         //call back after permission granted
-        //call back after permission granted
-        val permissionlistener: PermissionListener = object : PermissionListener {
+        val permissionListener: PermissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
-                Toast.makeText(this@MainActivity, "Permission Granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity,
+                    "Permission Granted",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
@@ -88,10 +93,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         //check all needed permissions together
-
-        //check all needed permissions together
         TedPermission.with(this)
-            .setPermissionListener(permissionlistener)
+            .setPermissionListener(permissionListener)
             .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
             .setPermissions(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -106,8 +109,24 @@ class MainActivity : AppCompatActivity() {
     private fun initializePlayerViewModel() {
         playerViewModel = ViewModelProvider(this@MainActivity)
                 .get(PlayerViewModel::class.java)
-        // playerViewModel.player = musicPlayerServiceBinder.getPlayer()
-        // binding.playerViewModel = playerViewModel
+
+        binding.playerViewModel = playerViewModel
+
+        playerViewModel.isAttachedToPlayerFragment.observe(this, {isAttached ->
+            if (playerViewModel.isPlaying && !isAttached) {
+                binding.miniPlayer.visibility = View.VISIBLE
+            }
+            else {
+                binding.miniPlayer.visibility = View.GONE
+            }
+        })
+
+        binding.miniPlayer.setOnClickListener {
+            this.findNavController(R.id.navHostFragment).navigate(
+                SongManagerFragmentDirections.actionSongManagerFragmentToPlayerFragment(playerViewModel.songList!!)
+            )
+            binding.invalidateAll()
+        }
     }
 
     override fun onStop() {

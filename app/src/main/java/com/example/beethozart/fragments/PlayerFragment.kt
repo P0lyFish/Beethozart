@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.beethozart.MainActivity
 import com.example.beethozart.R
 import com.example.beethozart.databinding.FragmentPlayerBinding
 import com.example.beethozart.viewmodels.PlayerViewModel
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_main.*
  * create an instance of this fragment.
  */
 class PlayerFragment : Fragment() {
+    lateinit var viewModel : PlayerViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,8 +40,9 @@ class PlayerFragment : Fragment() {
         mainActivity.supportActionBar?.hide()
         mainActivity.findViewById<MaterialCardView>(R.id.miniPlayer).visibility = View.GONE
 
-        val viewModel = ViewModelProvider(activity!!).get(
+        viewModel = ViewModelProvider(activity!!).get(
             PlayerViewModel::class.java)
+        viewModel.attachToPlayerFragment()
         viewModel.playSongList(args.songList)
 
         binding.viewModel = viewModel
@@ -59,8 +64,6 @@ class PlayerFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        val mainActivity = activity as MainActivity
-        mainActivity.findViewById<MaterialCardView>(R.id.miniPlayer).visibility = View.VISIBLE
+        viewModel.detachToPlayerFragment()
     }
 }

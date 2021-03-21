@@ -56,4 +56,3 @@ class SongListener(val clickListener: (song: Song) -> Unit) {
         clickListener(song)
     }
 }
-

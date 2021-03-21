@@ -1,4 +1,4 @@
-package com.example.beethozart
+package com.example.beethozart.utils
 
 import android.content.Context
 import android.net.Uri
@@ -7,29 +7,31 @@ import com.example.beethozart.databases.SongDatabase
 import com.example.beethozart.entities.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 
 class SongDatabaseBuilder(private val context: Context) {
+
     suspend fun build() {
         withContext(Dispatchers.IO) {
-            val database = SongDatabase.getInstance(context).songDatabaseDao
-            database.clear()
+            val songDatabase = SongDatabase.getInstance(context).songDatabaseDao
+            songDatabase.clear()
 
             val projection = arrayOf(
                     MediaStore.Audio.Media._ID,
                     MediaStore.Audio.AudioColumns.TITLE,
                     MediaStore.Audio.Albums.ALBUM,
+                    MediaStore.Audio.Media.ALBUM_ID,
                     MediaStore.Audio.ArtistColumns.ARTIST,
             )
 
             val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
             val uriExternal = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            val artWorkUriExternal = Uri.parse("content://media/external/audio/albumart")
             val sortOrder = MediaStore.Audio.Media.DATE_ADDED + " DESC"
             val audioCursor = context.contentResolver.query(
                     uriExternal, projection, selection, null, sortOrder
             )
-            Timber.i(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString())
+
             if (audioCursor != null && audioCursor.moveToFirst()) {
                 while (audioCursor.moveToNext()) {
                     val idIndex = audioCursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
@@ -39,8 +41,10 @@ class SongDatabaseBuilder(private val context: Context) {
                             audioCursor.getColumnIndexOrThrow(MediaStore.Audio.Albums.ALBUM)
                     val artistIndex =
                             audioCursor.getColumnIndexOrThrow(MediaStore.Audio.ArtistColumns.ARTIST)
+                    val albumIdIndex = audioCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
 
                     val id = audioCursor.getString(idIndex)
+                    val albumId = audioCursor.getString(albumIdIndex)
 
                     val song = Song(
                             id.toLong(),
@@ -48,9 +52,10 @@ class SongDatabaseBuilder(private val context: Context) {
                             audioCursor.getString(artistIndex),
                             audioCursor.getString(albumIndex),
                             Uri.withAppendedPath(uriExternal, "" + id).toString(),
+                            Uri.withAppendedPath(artWorkUriExternal, "" + albumId).toString()
                     )
 
-                    database.insert(song)
+                    songDatabase.insert(song)
                 }
 
                 audioCursor.close()

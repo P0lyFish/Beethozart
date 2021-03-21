@@ -6,11 +6,15 @@
         <variable
             name="artist"
             type="com.example.beethozart.entities.Artist" />
+        <variable
+            name="clickListener"
+            type="com.example.beethozart.fragments.adapters.ArtistListener" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(artist)}">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

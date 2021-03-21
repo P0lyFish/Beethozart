@@ -27,4 +27,7 @@ data class Song(
 
         @ColumnInfo(name = "uri")
         val uri: String = "0",
+
+        @ColumnInfo(name = "artWorkUri")
+        val artWorkUri: String = "-1"
 ): Parcelable

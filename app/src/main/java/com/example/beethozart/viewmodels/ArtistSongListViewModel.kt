@@ -4,28 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.beethozart.entities.SongList
-import com.example.beethozart.databases.SongDatabase
 import com.example.beethozart.entities.Song
-import kotlinx.coroutines.*
-import timber.log.Timber
+import com.example.beethozart.entities.SongList
 
+class ArtistSongListViewModel(application: Application, songList : List<Song>): AndroidViewModel(application) {
 
-class SongManagerViewModel(application: Application): AndroidViewModel(application) {
-    private var songDatabase = SongDatabase.getInstance(application).songDatabaseDao
-
-    var songList: LiveData<List<Song>> = songDatabase.getAllSongs()
-
-    private var viewModelJob = Job()
-
+    private val _songList = MutableLiveData<List<Song>>()
+    val songList: LiveData<List<Song>>
+        get() = _songList
 
     private val _currentSong = MutableLiveData<Song>()
     val currentSong: LiveData<Song>
         get() = _currentSong
 
     init {
-        Timber.i("Number of songs: ${songList.value?.size}")
-        _currentSong.value = null
+        _songList.value = songList
     }
 
     fun onSongClicked(song: Song) {
@@ -38,10 +31,5 @@ class SongManagerViewModel(application: Application): AndroidViewModel(applicati
 
     fun getSongList(): SongList {
         return SongList(songList.value!!.toMutableList())
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

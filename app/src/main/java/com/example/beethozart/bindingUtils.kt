@@ -1,9 +1,15 @@
 package com.example.beethozart
 
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.example.beethozart.entities.Artist
 import com.example.beethozart.entities.Playlist
+import com.example.beethozart.entities.Song
 
 
 @BindingAdapter("numTracks")
@@ -26,5 +32,16 @@ fun TextView.setPlaylistName(item: Playlist?) {
 fun TextView.setNumTracks(item: Playlist?) {
     item?.let {
         text = context.getString(R.string.num_tracks_format, item.getSize())
+    }
+}
+
+@BindingAdapter("albumCover")
+fun ImageView.setAlbumCover(item: Song?) {
+    item?.let {
+        if (item.artWorkUri != "-1")
+            Glide.with(context)
+                    .load(Uri.parse(item.artWorkUri))
+                    .placeholder(R.drawable.note)
+                    .into(this)
     }
 }
