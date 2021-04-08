@@ -3,7 +3,6 @@ package com.example.beethozart.viewmodels.factories
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.beethozart.entities.Song
 import com.example.beethozart.entities.SongList
 import com.example.beethozart.viewmodels.ArtistSongListViewModel
 import java.lang.IllegalArgumentException

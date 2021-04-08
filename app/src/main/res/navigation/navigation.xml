@@ -23,6 +23,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_songManagerFragment_to_onlineHomeFragment2"
+            app:destination="@id/onlineHomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistManagerFragment"
@@ -73,4 +76,27 @@
                 app:popExitAnim="@android:anim/slide_out_right" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.beethozart.fragments.SignInFragment"
+        android:label="SignInFragment" >
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_onlineHomeFragment"
+            app:destination="@id/onlineHomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.beethozart.fragments.SignUpFragment"
+        android:label="SignUpFragment" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onlineHomeFragment"
+        android:name="com.example.beethozart.fragments.OnlineHomeFragment"
+        android:label="onlineHomeFragment" />
 </navigation>

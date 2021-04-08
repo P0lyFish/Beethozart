@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.beethozart.databases.daos.SongDatabaseDao
 import com.example.beethozart.entities.Song
+import com.example.beethozart.entities.User
 
-@Database(entities = [Song::class], version = 1,  exportSchema = false)
-abstract class SongDatabase: RoomDatabase() {
+@Database(entities = [Song::class, User::class], version = 1, exportSchema = false)
+abstract class SongDatabase : RoomDatabase() {
     abstract val songDatabaseDao: SongDatabaseDao
 
     companion object {
@@ -21,12 +22,13 @@ abstract class SongDatabase: RoomDatabase() {
 
                 if (instance == null) {
                     instance = Room.databaseBuilder(
-                            context.applicationContext,
-                            SongDatabase::class.java,
-                            "all_song_database"
+                        context.applicationContext,
+                        SongDatabase::class.java,
+                        "all_song_database"
                     ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                 }
+
 
                 return instance
             }

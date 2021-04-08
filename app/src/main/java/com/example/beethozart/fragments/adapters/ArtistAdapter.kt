@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beethozart.R
 import com.example.beethozart.databinding.ListItemArtistBinding
 import com.example.beethozart.entities.Artist
-import timber.log.Timber
 
 class ArtistAdapter(private val clickListener: ArtistListener): ListAdapter<Artist,
         ArtistAdapter.ViewModel>(ArtistDiffCallback()) {

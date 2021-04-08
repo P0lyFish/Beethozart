@@ -1,8 +1,6 @@
 package com.example.beethozart
 
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

@@ -23,4 +23,10 @@
         android:enabled="true"
         android:icon="@drawable/ic_album"
         android:title="@string/album_item_text"/>
+
+    <item
+        android:id="@+id/onlineHomeFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_album"
+        android:title="@string/online_music"/>
 </menu>

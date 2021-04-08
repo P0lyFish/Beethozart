@@ -31,4 +31,8 @@
     <string name="password_confirm_hint">Confirm password</string>
     <string name="login_button_text">Login</string>
     <string name="create_account_button_text">Create</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="online_music">Online</string>
+    <string name="log_out">Log Out</string>
 </resources>
