@@ -98,5 +98,13 @@
     <fragment
         android:id="@+id/onlineHomeFragment"
         android:name="com.example.beethozart.fragments.OnlineHomeFragment"
-        android:label="onlineHomeFragment" />
+        android:label="onlineHomeFragment" >
+        <action
+            android:id="@+id/action_onlineHomeFragment_to_playerManagerFragment"
+            app:destination="@id/playerManagerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

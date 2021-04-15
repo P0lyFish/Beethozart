@@ -81,7 +81,7 @@
                     android:textColor="@android:color/primary_text_light_nodisable"
                     android:textSize="@dimen/song_title_text_size"
                     app:layout_constraintStart_toEndOf="@+id/songCover"
-                    app:layout_constraintTop_toTopOf="@+id/songCover" />
+                    app:layout_constraintTop_toTopOf="@+id/songCover"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>

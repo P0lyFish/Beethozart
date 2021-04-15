@@ -1,3 +1,4 @@
+
 package com.example.beethozart.fragments.adapters
 
 import android.view.LayoutInflater
