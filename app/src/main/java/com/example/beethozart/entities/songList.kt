@@ -17,15 +17,21 @@ data class SongList(
     val size: Int
       get() = songList.size
 
-    private fun shuffle() {
+    private fun shuffle() : SongList {
         val rnd: Random = ThreadLocalRandom.current();
 
-        for (i in songList.indices) {
+        val shuffledSongList = songList.toMutableList()
+        for (song in songList)
+            shuffledSongList.add(song)
+
+        for (i in shuffledSongList.indices) {
             val index = rnd.nextInt(i + 1)
             val temp = songList[i]
-            songList[i] = songList[index]
-            songList[index] = temp
+            shuffledSongList[i] = shuffledSongList[index]
+            shuffledSongList[index] = temp
         }
+
+        return SongList(shuffledSongList)
     }
 
     operator fun get(id: Int): Song {
@@ -34,5 +40,26 @@ data class SongList(
 
     fun toList(): List<Song> {
         return songList
+    }
+
+    fun beginWith(song: Song?): SongList {
+        for (i in songList.indices) {
+            if (songList[i] == song) {
+                val rotatedSongList = mutableListOf<Song>()
+                for (j in songList.indices) {
+                    if (j >= i)
+                        rotatedSongList.add(songList[j])
+                }
+
+                for (j in songList.indices) {
+                    if (j < i)
+                        rotatedSongList.add(songList[j])
+                }
+
+                return SongList(rotatedSongList)
+            }
+        }
+
+        return this
     }
 }

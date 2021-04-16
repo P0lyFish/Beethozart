@@ -24,7 +24,6 @@ class SongManagerViewModel(application: Application): AndroidViewModel(applicati
         get() = _currentSong
 
     init {
-        Timber.i("Number of songs: ${songList.value?.size}")
         _currentSong.value = null
     }
 
@@ -37,7 +36,7 @@ class SongManagerViewModel(application: Application): AndroidViewModel(applicati
     }
 
     fun getSongList(): SongList {
-        return SongList(songList.value!!.toMutableList())
+        return SongList(songList.value!!.toMutableList()).beginWith(_currentSong.value)
     }
 
     override fun onCleared() {

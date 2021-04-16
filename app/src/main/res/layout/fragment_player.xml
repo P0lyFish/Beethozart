@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/player_menu"
             app:navigationIcon="@drawable/ic_keyboard_arrow_down_24dp"
-            app:title="@string/app_name" />
+            app:title="@{viewModel.currentTitle}" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/coverCard"

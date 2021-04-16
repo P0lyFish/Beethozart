@@ -15,6 +15,7 @@ import com.example.beethozart.viewmodels.PlayerViewModel
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 
 /**
@@ -40,12 +41,24 @@ class PlayerFragment : Fragment() {
         mainActivity.supportActionBar?.hide()
         mainActivity.findViewById<MaterialCardView>(R.id.miniPlayer).visibility = View.GONE
 
-        viewModel = ViewModelProvider(activity!!).get(
+        viewModel = ViewModelProvider(requireActivity()).get(
             PlayerViewModel::class.java)
         viewModel.attachToPlayerFragment()
         viewModel.playSongList(args.songList)
 
         binding.viewModel = viewModel
+
+        binding.playerToolBar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.favoriteItem -> {
+                    viewModel.onShareSong(activity as MainActivity, viewModel.currentSong.value);
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
 
         binding.elapsedTimeSlider.addOnChangeListener { _, value, fromUser ->
             if (fromUser)

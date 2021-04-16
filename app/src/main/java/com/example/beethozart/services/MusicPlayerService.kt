@@ -11,6 +11,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.example.beethozart.entities.SongList
 import com.example.beethozart.notification.MusicPlayerNotificationBuilder
+import com.example.beethozart.viewmodels.PlayerViewModel
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -33,7 +34,7 @@ class MusicPlayerService: Service() {
     private lateinit var mediaSessionConnector: MediaSessionConnector
 
     inner class MusicPlayerServiceBinder : Binder() {
-        fun playSongList(songList: SongList): SimpleExoPlayer {
+        fun playSongList(songList: SongList, playerViewModel: PlayerViewModel): SimpleExoPlayer {
             player?.release()
 
             val context = this@MusicPlayerService
@@ -52,6 +53,7 @@ class MusicPlayerService: Service() {
                     musicPlayerNotificationBuilder
                             .build(songList[player!!.currentWindowIndex])
             )
+            playerViewModel.setCurrentSong(songList[player!!.currentWindowIndex])
 
             player!!.addListener(object : Player.EventListener {
                 override fun onPositionDiscontinuity(reason: Int) {
@@ -62,6 +64,8 @@ class MusicPlayerService: Service() {
                             musicPlayerNotificationBuilder
                                     .build(songList[player!!.currentWindowIndex])
                     )
+
+                    playerViewModel.setCurrentSong(songList[player!!.currentWindowIndex])
                 }
             })
 

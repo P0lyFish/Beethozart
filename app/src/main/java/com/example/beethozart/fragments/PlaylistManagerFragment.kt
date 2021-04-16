@@ -31,10 +31,15 @@ class PlaylistManagerFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.playlistList.adapter = adapter
+        binding.playlistViewModel = viewModel
 
         viewModel.playlistList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
         })
+
+        binding.addPlaylistButton.setOnClickListener {
+            viewModel.onAddPlaylist(requireActivity())
+        }
 
         return binding.root
     }
