@@ -1,14 +1,13 @@
 package com.example.beethozart.entities
 
-data class Playlist(
-    val playlistName: String = "Unknown",
-    var tracks: MutableList<Song> = mutableListOf()
-) {
-    fun getSize(): Int {
-        return tracks.size
-    }
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    fun addTrack(track: Song) {
-        tracks.add(track)
-    }
+@Entity(tableName = "playlist_table")
+data class Playlist(
+    @PrimaryKey
+    val playlistName: String = "Unknown",
+
+) {
 }

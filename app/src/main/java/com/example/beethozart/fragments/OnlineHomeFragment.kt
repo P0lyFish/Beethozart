@@ -40,9 +40,13 @@ class OnlineHomeFragment : Fragment() {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(OnlineHomeViewModel::class.java)
 
-        val adapter = SongAdapter(SongListener {
-            viewModel.onSongClicked(it)
-        })
+        val adapter = SongAdapter(
+            SongListener {
+                viewModel.onSongClicked(it)
+            },
+            SongListener {
+            }
+        )
         val onlineSongList = binding.searchSongList
         onlineSongList.adapter = adapter
         viewModel.listSong.observe(viewLifecycleOwner, {

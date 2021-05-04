@@ -8,6 +8,9 @@
         <variable
             name="playlist"
             type="com.example.beethozart.entities.Playlist" />
+        <variable
+            name="clickListener"
+            type="com.example.beethozart.fragments.adapters.PlaylistListener" />
     </data>
 
     <LinearLayout
@@ -18,6 +21,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
+        android:onClick="@{() -> clickListener.onClick(playlist)}"
         android:layout_marginRight="10dp">
 
         <com.google.android.material.card.MaterialCardView

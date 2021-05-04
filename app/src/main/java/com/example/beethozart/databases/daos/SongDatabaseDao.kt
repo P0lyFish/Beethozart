@@ -2,8 +2,7 @@ package com.example.beethozart.databases.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.beethozart.entities.Song
-import com.example.beethozart.entities.User
+import com.example.beethozart.entities.*
 
 @Dao
 interface SongDatabaseDao {
@@ -30,4 +29,20 @@ interface SongDatabaseDao {
 
     @Query("SELECT * FROM sign_in_user")
     fun getUser(): LiveData<List<User>>
+
+    @Transaction
+    @Query("SELECT * FROM PLAYLIST_TABLE WHERE playlistName = :playlistName")
+    fun getPlaylistWithSongs(playlistName: String): PlaylistWithSongs?
+
+    @Query("SELECT * FROM playlist_table")
+    fun getAllPlaylists(): LiveData<List<Playlist>>
+
+    @Query("SELECT playlistName FROM playlist_table")
+    fun getAllPlaylistNames(): List<String>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertPlaylist(playlist: Playlist)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertPlaylistSongRef(playlistSongRef: PlaylistSongCrossRef)
 }

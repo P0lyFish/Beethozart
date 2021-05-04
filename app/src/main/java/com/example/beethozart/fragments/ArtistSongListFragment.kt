@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -15,6 +16,7 @@ import com.example.beethozart.fragments.adapters.SongAdapter
 import com.example.beethozart.fragments.adapters.SongListener
 import com.example.beethozart.viewmodels.ArtistSongListViewModel
 import com.example.beethozart.viewmodels.factories.ArtistSongListViewModelFactory
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.
@@ -39,9 +41,15 @@ class ArtistSongListFragment : Fragment() {
         val viewModel: ArtistSongListViewModel by navGraphViewModels(R.id.nestedArtistSongList) {
             ArtistSongListViewModelFactory(application, args.songList)
         }
-        val adapter = SongAdapter(SongListener {
-            viewModel.onSongClicked(it)
-        })
+        val adapter = SongAdapter(
+            SongListener {
+                viewModel.onSongClicked(it)
+            },
+            SongListener {
+                Timber.i("more clicked")
+                Toast.makeText(context, "more clicked", Toast.LENGTH_LONG).show()
+            }
+        )
         val songList = binding.songList
 
         songList.adapter = adapter

@@ -25,7 +25,6 @@ class ArtistManagerViewModel(application: Application): AndroidViewModel(applica
 
     fun createArtistList(songList: List<Song>) {
         _artistList.value = listOf()
-        Timber.i("Number of songs: ${songList.size}")
         val artistMap = HashMap<String, Artist>()
 
         for (song in songList) {

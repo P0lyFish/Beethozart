@@ -5,10 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.beethozart.databases.daos.SongDatabaseDao
+import com.example.beethozart.entities.Playlist
+import com.example.beethozart.entities.PlaylistSongCrossRef
 import com.example.beethozart.entities.Song
 import com.example.beethozart.entities.User
 
-@Database(entities = [Song::class, User::class], version = 1, exportSchema = false)
+@Database(entities = [Song::class, User::class, Playlist::class, PlaylistSongCrossRef::class], version = 1, exportSchema = false)
 abstract class SongDatabase : RoomDatabase() {
     abstract val songDatabaseDao: SongDatabaseDao
 

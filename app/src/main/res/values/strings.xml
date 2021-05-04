@@ -35,4 +35,11 @@
     <string name="sign_up">Sign Up</string>
     <string name="online_music">Online</string>
     <string name="log_out">Log Out</string>
+    <string name="playlist_fab_content_desc">Add playlist</string>
+    <string name="playlist_name_dialog_title">Playlist name</string>
+    <string name="playlist_name_hint">Playlist name</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="favorite_playlist">Favorite</string>
 </resources>

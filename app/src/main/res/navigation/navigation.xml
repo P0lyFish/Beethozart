@@ -31,7 +31,19 @@
         android:id="@+id/playlistManagerFragment"
         android:name="com.example.beethozart.fragments.PlaylistManagerFragment"
         android:label="PlaylistManagerFragment"
-        tools:layout="@layout/fragment_playlist_manager" />
+        tools:layout="@layout/fragment_playlist_manager" >
+        <action
+            android:id="@+id/action_playlistManagerFragment_to_nestedPlaylistSongList"
+            app:destination="@id/nestedPlaylistSongList">
+            <argument
+                android:name="songList"
+                app:argType="com.example.beethozart.entities.SongList"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/artistManagerFragment"
         android:name="com.example.beethozart.fragments.ArtistManagerFragment"
@@ -107,4 +119,21 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
+    <navigation android:id="@+id/nestedPlaylistSongList"
+        app:startDestination="@id/playlistSongListFragment">
+        <fragment
+            android:id="@+id/playlistSongListFragment"
+            android:name="com.example.beethozart.fragments.PlaylistSongListFragment"
+            android:label="PlaylistSongListFragment" />
+        <argument
+            android:name="songList"
+            app:argType="com.example.beethozart.entities.SongList" />
+        <action
+            android:id="@+id/action_playlistSongListFragment_to_playerManagerFragment"
+            app:destination="@id/playerManagerFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </navigation>
 </navigation>

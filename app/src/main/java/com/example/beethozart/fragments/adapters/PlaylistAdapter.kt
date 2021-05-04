@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beethozart.R
-import com.example.beethozart.databinding.ListItemPlaylistBinding
 import com.example.beethozart.entities.Playlist
+import com.example.beethozart.databinding.ListItemPlaylistBinding
 
-class PlaylistAdapter: ListAdapter<Playlist, PlaylistAdapter.ViewHolder>(PlaylistDiffCallback()) {
+class PlaylistAdapter(
+    private val playlistListener: PlaylistListener
+    ): ListAdapter<Playlist, PlaylistAdapter.ViewHolder>(PlaylistDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(playlistListener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,8 +25,9 @@ class PlaylistAdapter: ListAdapter<Playlist, PlaylistAdapter.ViewHolder>(Playlis
 
     class ViewHolder private constructor(private val binding: ListItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Playlist) {
+        fun bind(playlistListener: PlaylistListener, item: Playlist) {
             binding.playlist = item
+            binding.clickListener = playlistListener
             binding.executePendingBindings()
         }
 
@@ -50,5 +53,11 @@ class PlaylistDiffCallback: DiffUtil.ItemCallback<Playlist>() {
 
     override fun areItemsTheSame(oldItem: Playlist, newItem: Playlist): Boolean {
         return oldItem.playlistName == newItem.playlistName
+    }
+}
+
+class PlaylistListener(val playlistListener: (playlist: Playlist) -> Unit) {
+    fun onClick(playlist: Playlist) {
+        playlistListener(playlist)
     }
 }

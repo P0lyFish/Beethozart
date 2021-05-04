@@ -9,6 +9,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
+import com.example.beethozart.entities.Song
 import com.example.beethozart.entities.SongList
 import com.example.beethozart.notification.MusicPlayerNotificationBuilder
 import com.example.beethozart.viewmodels.PlayerViewModel
@@ -71,6 +72,14 @@ class MusicPlayerService: Service() {
 
             return player!!
         }
+
+        fun setRepeatMode(mode: Int) {
+            player!!.repeatMode = mode
+        }
+
+        fun setShuffleMode(enable: Boolean) {
+            player!!.shuffleModeEnabled = enable
+        }
     }
 
     inner class NotificationBroadcastReceiver : BroadcastReceiver() {
@@ -90,6 +99,7 @@ class MusicPlayerService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+
         val intentFilter = IntentFilter(MusicPlayerNotificationBuilder.ACTION_NOTIFICATION_PLAYER)
         registerReceiver(notificationBroadcastReceiver, intentFilter)
 

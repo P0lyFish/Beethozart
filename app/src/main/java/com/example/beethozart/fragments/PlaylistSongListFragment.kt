@@ -5,50 +5,51 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.beethozart.R
-import com.example.beethozart.databinding.FragmentSongManagerBinding
+import com.example.beethozart.databinding.FragmentPlaylistSongListBinding
 import com.example.beethozart.fragments.adapters.SongAdapter
 import com.example.beethozart.fragments.adapters.SongListener
-import com.example.beethozart.viewmodels.SongManagerViewModel
-import kotlinx.android.synthetic.main.fragment_player.view.*
+import com.example.beethozart.viewmodels.PlaylistSongListViewModel
+import com.example.beethozart.viewmodels.factories.PlaylistSongListViewModelFactory
+import timber.log.Timber
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SongManagerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SongManagerFragment : Fragment() {
+class PlaylistSongListFragment : Fragment() {
+    // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-        val binding: FragmentSongManagerBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_song_manager, container, false
+        val binding: FragmentPlaylistSongListBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_playlist_song_list, container, false
         )
 
-        val viewModel = ViewModelProvider(requireActivity()).get(SongManagerViewModel::class.java)
+        val args = ArtistSongListFragmentArgs.fromBundle(requireArguments())
+        val application = requireActivity().application
+
+        val viewModel: PlaylistSongListViewModel by navGraphViewModels(R.id.nestedPlaylistSongList) {
+            PlaylistSongListViewModelFactory(application, args.songList)
+        }
         val adapter = SongAdapter(
             SongListener {
                 viewModel.onSongClicked(it)
             },
             SongListener {
-                viewModel.onAddToPlaylist(it, requireActivity())
+                Timber.i("more clicked")
+                Toast.makeText(context, "more clicked", Toast.LENGTH_LONG).show()
             }
         )
-        val songList = binding.songList
+
+        val songList = binding.playlistSongList
 
         songList.adapter = adapter
         binding.lifecycleOwner = this
@@ -63,19 +64,13 @@ class SongManagerFragment : Fragment() {
         viewModel.currentSong.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
-                    SongManagerFragmentDirections.actionSongManagerFragmentToPlayerFragment(viewModel.getSongList())
+                    PlaylistSongListFragmentDirections.actionPlaylistSongListFragmentToPlayerManagerFragment(viewModel.getSongList())
                 )
 
                 binding.invalidateAll()
                 viewModel.onPlayerNavigated()
             }
         })
-
-        // binding.miniPlayer.setOnClickListener {
-        //     this.findNavController().navigate(
-        //         SongManagerFragmentDirections.actionSongManagerFragmentToPlayerFragment(viewModel.getSongList())
-        //     )
-        // }
 
         return binding.root
     }

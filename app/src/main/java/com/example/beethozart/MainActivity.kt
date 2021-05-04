@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
-        startForegroundService(Intent(this, MusicPlayerService::class.java))
+        // startForegroundService(Intent(this, MusicPlayerService::class.java))
 
         Intent(this, MusicPlayerService::class.java).also {
             bindService(it, connection, Context.BIND_AUTO_CREATE)
@@ -102,6 +102,12 @@ class MainActivity : AppCompatActivity() {
             .check()
 
         uiScope.launch {
+            buildDatabase()
+        }
+    }
+
+    suspend fun buildDatabase() {
+        withContext(Dispatchers.IO) {
             SongDatabaseBuilder(application).build()
         }
     }

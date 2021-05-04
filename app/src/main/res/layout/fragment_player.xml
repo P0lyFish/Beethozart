@@ -148,6 +148,7 @@
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.onSetRepeatMode()}"
                     app:icon="@drawable/ic_repeat_24dp"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp" />
@@ -163,6 +164,7 @@
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.onSetShuffleMode()}"
                     app:icon="@drawable/ic_shuffle_24px"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp" />
@@ -178,6 +180,7 @@
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.addCurrentSongToFavorite()}"
                     app:icon="@drawable/ic_favorite_24dp"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp" />
