@@ -10,7 +10,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-private const val BASE_URL = "http://192.168.0.101:5000/"
+private const val BASE_URL = "https://music-backend-minhbeo.herokuapp.com/"
+
+
 
 val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 

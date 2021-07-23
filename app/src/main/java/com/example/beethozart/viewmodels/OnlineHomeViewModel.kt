@@ -63,14 +63,16 @@ class OnlineHomeViewModel(private val database: SongDatabaseDao, application: Ap
         })
     }
 
+
     fun getHistory(username : String) {
         Api.retrofitService.getHistory(UserFromServer(username)).enqueue(object : retrofit2.Callback<List<Song>>{
             override fun onResponse(call: Call<List<Song>>, response: Response<List<Song>>) {
-                _historySongList.value = response?.body()
+                Log.d("aaa" , "success")
+                _listSong.value = response?.body()
             }
 
             override fun onFailure(call: Call<List<Song>>, t: Throwable) {
-
+                Log.d("aaa" , "fail")
             }
 
         })
